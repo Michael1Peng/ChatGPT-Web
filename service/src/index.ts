@@ -227,7 +227,7 @@ router.post('/chat', auth, async (req, res) => {
       : await insertChat(uuid, prompt, roomId, options as ChatOptions)
     const response = await chatReply(prompt, options)
     if (response.status === 'Success')
-      await updateChat(message._id, response.data.text, response.data.id)
+      await updateChat(message._id, response.data.text, response.data.id, response.data)
     res.send(response)
   }
   catch (error) {
@@ -254,7 +254,7 @@ router.post('/chat-process', [auth, limiter], async (req, res) => {
       systemMessage,
     })
     if (result.status === 'Success')
-      await updateChat(message._id, result.data.text, result.data.id)
+      await updateChat(message._id, result.data.text, result.data.id, result.data)
   }
   catch (error) {
     res.write(JSON.stringify(error))
